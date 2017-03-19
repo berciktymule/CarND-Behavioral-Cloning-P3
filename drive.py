@@ -3,6 +3,7 @@ import base64
 from datetime import datetime
 import os
 import shutil
+import cv2
 
 import numpy as np
 import socketio
@@ -15,6 +16,8 @@ from io import BytesIO
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
+
+import matplotlib.pyplot as plt
 
 sio = socketio.Server()
 app = Flask(__name__)
@@ -44,8 +47,19 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 20
 controller.set_desired(set_speed)
+
+def gradientNorm(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    b,g,r = cv2.split(image)
+
+    clahe = cv2.createCLAHE(clipLimit=12.0, tileGridSize=(4,4))
+    bc = clahe.apply(b)
+    gc = clahe.apply(g)
+    rc = clahe.apply(r)
+    cl1 = cv2.merge((bc,gc,rc))
+    return cv2.cvtColor(cl1, cv2.COLOR_BGR2HSV)
 
 
 @sio.on('telemetry')
@@ -60,9 +74,11 @@ def telemetry(sid, data):
         # The current image from the center camera of the car
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
-        image_array = np.asarray(image)
+        image_array = cv2.resize(gradientNorm(np.asarray(image)), (64, 64))
+        control = model.predict(image_array[None, :, :, :], batch_size=1)
+        #steering_angle = control[0][0]
+        #throttle = control[0][1]
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
-
         throttle = controller.update(float(speed))
 
         print(steering_angle, throttle)
