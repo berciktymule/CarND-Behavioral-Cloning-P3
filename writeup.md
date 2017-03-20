@@ -1,6 +1,6 @@
-#**Behavioral Cloning**
+# **Behavioral Cloning**
 
-##Writeup
+## Writeup
 
 ---
 
@@ -13,24 +13,13 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
-
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 * model.py containing the script to create and train the model
@@ -38,19 +27,19 @@ My project includes the following files:
 * model.h5 containing a trained convolution neural network
 * writeup_report.md or writeup_report.pdf summarizing the results
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 I based my model on the Nvidia model discussed in chapter 14 of the Behavioral Cloning project.
 The input was initially set to match the size of the images captured by the simulator.
@@ -58,25 +47,25 @@ Later on I decided to resize the images to 64x64 pixels. That has dramatically r
 
 The data is normalized in the model using a Keras lambda layer (code line 50).
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 Inspired by one of the cs321n lectures I have decided to use batch normalization as it takes care of the initialization and extra regularization. It has reduced the number of epochs necessary to train and it is preventing the vanishing gradient problem.
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 81). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an Adam optimizer. In the beginning I did override the learning rate to 0.1 and decay 0.1 to speed up the initial training. But with keras 2 these arguments are ignored and Adam optimizer is good as it is anyway.
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. The base was the training data provided by Udacity.  I used a combination of center lane driving, recovering from the left and right sides of the road.
 
 For details about how I created the training data, see the next section.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 This submission is actually my second model. 
 My computer crashed 4 days ago and I lost all my work with my first model (which performed superbly at full speed on track 1 and made it through half of track 2 on just track 1 training data). 
 I was forced to start from scratch yesterday to create a substitute in a hurry. I shall describe the design approach for both models here.
@@ -89,11 +78,11 @@ The model guaranteed enough capacity for the task and the batch normalization la
 
 The first model I built was using the side cameras. The hardest part for me was to find the right offsets to use for steering for the side cameras. More details below.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model used the same architecture but I got frustrated with looking for the right camera angles and decided to just use the main camera and collect recovery data.
 
-####3. Data preprocessing
+#### 3. Data preprocessing
 Initially I was working with the full size images.
 I was cropping them to get rid of the top part of the image filled with the sky and the bottom part with the car's hood.
 When I got the first model working perfectly with the first track I tested it on track 2 and it made it to the first tree where it casted a shadow on the road. 
@@ -110,7 +99,7 @@ I also experimented by converting to HSV as my mentor suggested and to YUV as th
 
 I was also thinking about nulling out the top corners but decided against it as in real life that would not be applicable as we might react on incoming objects in that space.
 
-####4. Creation of the Training Set & Training Process
+#### 4. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using top speed center lane driving.
 
@@ -127,7 +116,7 @@ Next I tried to make the model be more willing to turn by dropping training exam
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs varied depending on the data. I used 11 for smaller training sets and 4-6 on the larger ones. That number was determined by looking on the drop of validation loss with each epoch. Sometimes it would plateau at 0.0150 and and sometimes at 0.0050. 
 
-####5. Observations
+#### 5. Observations
 #### Low validation loss does not always mean that the car would stay on track. 
 I would get as low as 0.0032 on 30% validation split and the car would just go in circles.
 
