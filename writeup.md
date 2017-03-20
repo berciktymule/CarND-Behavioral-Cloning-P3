@@ -32,6 +32,10 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 ```sh
 python drive.py model.h5
 ```
+I have included 2 models simpler:
+- one that does not use the side cameras (nice20)
+- a model that uses side cameras and performs a lot smoother (main)
+
 
 #### 3. Submission code is usable and readable
 
@@ -128,6 +132,11 @@ I would get as low as 0.0032 on 30% validation split and the car would just go i
 It's worth running and testing the model multiple times before making changes. 
 That is caused by hitting local optima during training.
 Many times the model would train to straddle the side lines instead of the center of the road.
+
+#### More data is not always the answer
+
+I recorded a lot of laps using my joystick. They were all smooth. Ultimately however I used just the udacity run with a sinlgle slow run. Adding more data caused the model to act hectic. 
+This is very surprising.
 
 #### 6. Enhancements
 I really wanted to get it to work with track 2. 
