@@ -27,7 +27,7 @@ My project includes the following files:
 * model.h5 containing a trained convolution neural network
 * writeup_report.md or writeup_report.pdf summarizing the results
 
-#### 2. Submission includes functional code
+#### 2. Submission icludes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing
 ```sh
 python drive.py model.h5
@@ -129,7 +129,7 @@ It's worth running and testing the model multiple times before making changes.
 That is caused by hitting local optima during training.
 Many times the model would train to straddle the side lines instead of the center of the road.
 
-####6. Enhancements
+#### 6. Enhancements
 I really wanted to get it to work with track 2. 
 I trained the model with track 2 data and I made it stick to a single lane. But it never made it through the entire track.
 I've noticed that because of the steepness of the road it might be beneficial to crop it more from the top to get rid of the distant winding road.
@@ -142,5 +142,6 @@ As I was writing this I was working on rewriting the original model that uses th
  - Changed the side camera steering offset to 0.07
  - Trained for 7 epochs
  - Used only udacity data and data from the single low speed pass.
+ - Removing %30 of samples with 0 steering value to prevent the model from going straight on the turns
 
 I'm approaching the deadline and I'm in a hurry so please forgive me for the lack of visualizations here.
