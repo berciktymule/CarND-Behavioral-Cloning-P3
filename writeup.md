@@ -93,6 +93,10 @@ I was working on getting the model to perform on both tracks when my computer cr
 
 The second model does not use CLAHE as I was trying to get something that would make me pass the deadline quick.
 
+I'm adding the mirror images with reversed steering values in order to prevent the model of being biased towards turning to the left.
+
+The model that uses side cameras adds mirror images of both cameras as well. That results with a lot of extra samples.
+
 As I was training the models I was trying to train on more and more data until it wouldn't fit in my memory. That's when I tried resizing to 64x64 after making sure it did not impede the performance.
 
 I also experimented by converting to HSV as my mentor suggested and to YUV as the Nvidia paper suggested but I didn't see any significant improvements so decided against it and kept things simple.
