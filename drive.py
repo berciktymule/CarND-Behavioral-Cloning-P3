@@ -47,11 +47,14 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 20
+set_speed = 30
 controller.set_desired(set_speed)
 
+#If we wanted some preprocessing it would go here
+#I was experimenting with channel conversion and histogram equalization
+#but it's not used for track 1 models
 def gradientNorm(image):
-    return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    return image
     b,g,r = cv2.split(image)
 
     clahe = cv2.createCLAHE(clipLimit=12.0, tileGridSize=(4,4))
