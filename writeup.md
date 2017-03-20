@@ -137,5 +137,6 @@ As I was writing this I was working on rewriting the original model that uses th
  - Added a dropout before the fully connected layers
  - Changed the side camera steering offset to 0.07
  - Trained for 7 epochs
+ - Used only udacity data and data from the single low speed pass.
 
 I'm approaching the deadline and I'm in a hurry so please forgive me for the lack of visualizations here.
