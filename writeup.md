@@ -2,6 +2,9 @@
 
 ## Writeup
 
+[//]: # (Image References)
+
+[image1]: ./examples/image_preprocessing.png "Image preprocessing example"
 ---
 
 **Behavioral Cloning Project**
@@ -109,6 +112,9 @@ As I was training the models I was trying to train on more and more data until i
 I also experimented by converting to HSV as my mentor suggested and to YUV as the Nvidia paper suggested but I didn't see any significant improvements so decided against it and kept things simple.
 
 I was also thinking about nulling out the top corners but decided against it as in real life that would not be applicable as we might react on incoming objects in that space.
+
+Example of the source image and preprocessed one:
+![alt text][image1]
 
 #### 4. Creation of the Training Set & Training Process
 
