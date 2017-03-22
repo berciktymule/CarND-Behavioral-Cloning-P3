@@ -1,10 +1,6 @@
 # **Behavioral Cloning**
 
 ## Writeup
-
-[//]: # (Image References)
-
-[image1]: ./examples/image_preprocessing.png "Image preprocessing example"
 ---
 
 **Behavioral Cloning Project**
@@ -15,6 +11,10 @@ The goals / steps of this project are the following:
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
+
+[//]: # (Image References)
+[image1]: ./examples/image_preprocessing.png "Image preprocessing example"
+[image2]: ./examples/data_distribution.png "Distribution of steering angle in the data"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -92,6 +92,42 @@ The first model I built was using the side cameras. The hardest part for me was 
 
 The final model used the same architecture but I got frustrated with looking for the right camera angles and decided to just use the main camera and collect recovery data.
 
+Detailed model architecture:
+
+|Layer (type)                 |Output Shape        |Param #   |
+|-----------------------------|:------------------:|---------:|
+|cropping2d_1 (Cropping2D)    |(27, 64, 3)         |0         |
+|lambda_1 (Lambda)            |(27, 64, 3)         |0         |
+|conv2d_1 (Conv2D)            |(14, 32, 24)        |1824      |
+|batch_normalization_1 (Batch |(14, 32, 24)        |96        |
+|activation_1 (Activation)    |(14, 32, 24)        |0         |
+|conv2d_2 (Conv2D)            |(7, 16, 36)         |21636     |
+|batch_normalization_2 (Batch |(7, 16, 36)         |144       |
+|activation_2 (Activation)    |(7, 16, 36)         |0         |
+|conv2d_3 (Conv2D)            |(4, 8, 48)          |43248     |
+|batch_normalization_3 (Batch |(4, 8, 48)          |192       |
+|activation_3 (Activation)    |(4, 8, 48)          |0         |
+|conv2d_4 (Conv2D)            |(4, 8, 64)          |27712     |
+|batch_normalization_4 (Batch |(4, 8, 64)          |256       |
+|activation_4 (Activation)    |(4, 8, 64)          |0         |
+|conv2d_5 (Conv2D)            |(2, 6, 64)          |36928     |
+|batch_normalization_5 (Batch |(2, 6, 64)          |256       |
+|activation_5 (Activation)    |(2, 6, 64)          |0         |
+|flatten_1 (Flatten)          |(768)               |0         |
+|dropout_1 (Dropout)          |(768)               |0         |
+|dense_1 (Dense)              |(100)               |76900     |
+|batch_normalization_6 (Batch |(100)               |400       |
+|activation_6 (Activation)    |(100)               |0         |
+|dense_2 (Dense)              |(50)                |5050      |
+|batch_normalization_7 (Batch |(50)                |200       |
+|activation_7 (Activation)    |(50)                |0         |
+|dense_3 (Dense)              |(10)                |510       |
+|batch_normalization_8 (Batch |(10)                |40        |
+|activation_8 (Activation)    |(10)                |0         |
+|dense_4 (Dense)              |(1)                 |11        |
+
+
+
 #### 3. Data preprocessing
 Initially I was working with the full size images.
 I was cropping them to get rid of the top part of the image filled with the sky and the bottom part with the car's hood.
@@ -114,7 +150,14 @@ I also experimented by converting to HSV as my mentor suggested and to YUV as th
 I was also thinking about nulling out the top corners but decided against it as in real life that would not be applicable as we might react on incoming objects in that space.
 
 Example of the source image and preprocessed one:
+
 ![alt text][image1]
+
+Distribution of the steering angles in the data set:
+
+![alt text][image2]
+
+As you can see the data is hevily biased towards turning left. This is countered by adding mirror image to the pipline as well as described above.
 
 #### 4. Creation of the Training Set & Training Process
 
